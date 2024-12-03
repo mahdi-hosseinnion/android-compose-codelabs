@@ -44,9 +44,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.materialIcon
+import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Spa
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -55,6 +62,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
@@ -63,6 +71,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codelab.basiclayouts.ui.theme.MySootheTheme
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
@@ -232,13 +241,33 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 // Step: Bottom navigation - Material
 @Composable
 private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
-    // Implement composable here
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        modifier = modifier
+    ) {
+        NavigationBarItem(
+            selected = true,
+            onClick = {},
+            icon = { Icon(imageVector = Icons.Rounded.Spa, contentDescription = null) },
+            label = { Text(stringResource(R.string.bottom_navigation_home)) }
+        )
+        NavigationBarItem(
+            selected = false,
+            onClick = {},
+            icon = { Icon(imageVector = Icons.Rounded.AccountCircle, contentDescription = null) },
+            label = { Text(stringResource(R.string.bottom_navigation_profile)) }
+        )
+    }
 }
 
 // Step: MySoothe App - Scaffold
 @Composable
 fun MySootheAppPortrait() {
-    // Implement composable here
+    Scaffold(
+        bottomBar = { SootheBottomNavigation() }
+    ) { padding ->
+        HomeScreen(Modifier.padding(padding))
+    }
 }
 
 // Step: Bottom navigation - Material
@@ -365,7 +394,7 @@ fun NavigationRailPreview() {
 @Preview(widthDp = 360, heightDp = 640)
 @Composable
 fun MySoothePortraitPreview() {
-    MySootheAppPortrait()
+    MySootheTheme { MySootheAppPortrait() }
 }
 
 @Preview(widthDp = 640, heightDp = 360)
